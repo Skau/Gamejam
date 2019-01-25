@@ -63,7 +63,7 @@ void AGamejamCharacter::LookUpAtRate(float Rate)
 
 void AGamejamCharacter::Jump()
 {
-	LaunchCharacter(GetActorForwardVector() * 10000, true, true);
+	LaunchCharacter((GetActorUpVector() * 500) + (GetActorForwardVector() * 1000), false, false);
 }
 
 void AGamejamCharacter::MoveForward(float Value)
