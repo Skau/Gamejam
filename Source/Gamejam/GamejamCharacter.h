@@ -21,6 +21,11 @@ class AGamejamCharacter : public ACharacter
 public:
 	AGamejamCharacter();
 
+	/** Returns CameraBoom subobject **/
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	/** Returns FollowCamera subobject **/
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -30,6 +35,10 @@ public:
 	float BaseLookUpRate;
 
 protected:
+	// APawn interface
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	// End of APawn interface
+
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
@@ -48,15 +57,9 @@ protected:
 	 */
 	void LookUpAtRate(float Rate);
 
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	// End of APawn interface
 
-public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+private:
+	void Jump();
+
 };
 
