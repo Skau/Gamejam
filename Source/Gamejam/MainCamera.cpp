@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "PlayerCamera.h"
+#include "MainCamera.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "math.h"
@@ -8,7 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "CharacterFrog.h"
 
-APlayerCamera::APlayerCamera()
+AMainCamera::AMainCamera()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -18,13 +18,13 @@ APlayerCamera::APlayerCamera()
 	DistanceFromPlayer = 600;
 }
 
-void APlayerCamera::BeginPlay()
+void AMainCamera::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Player =  Cast<ACharacterFrog>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	Player = Cast<ACharacterFrog>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
-	if (!Player) 
+	if (!Player)
 	{
 		UE_LOG(LogTemp, Error, TEXT("No player found"))
 	}
@@ -34,28 +34,22 @@ void APlayerCamera::BeginPlay()
 	}
 }
 
-void APlayerCamera::Tick(float deltaTime)
+void AMainCamera::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
-	if (!Player) { return;  }
+	if (!Player) { return; }
 
-	// Move camera
+	// Move camera X axis
 	auto CameraLocation = GetCameraComponent()->GetComponentToWorld().GetLocation();
-	GetCameraComponent()->SetWorldLocation(FVector(Player->GetActorLocation().X - DistanceFromPlayer, CameraLocation.Y, CameraLocation.Z));
+	GetCameraComponent()->AddWorldOffset(FVector((Player->GetActorLocation().X - DistanceFromPlayer) - CameraLocation.X, 0, 0));
 
-	// Location of start of spline
-	auto FirstSplinePointLoc = SplineComponent->GetWorldLocationAtSplinePoint(0);
-
-	// Distance from start of spline to current loc
-	auto distance = GetCameraComponent()->GetComponentToWorld().GetLocation().X - SplineComponent->GetWorldLocationAtSplinePoint(0).X;
-
-	// New y position for camera
-	auto newPos = SplineComponent->GetLocationAtDistanceAlongSpline(distance, ESplineCoordinateSpace::World);
+	// New Y / Z position for camera	
+	auto newPos = SplineComponent->FindLocationClosestToWorldLocation(GetCameraComponent()->GetComponentToWorld().GetLocation(), ESplineCoordinateSpace::World);
 	// New rotation for camera
-	auto newRotation = SplineComponent->GetDirectionAtDistanceAlongSpline(distance, ESplineCoordinateSpace::World);
+	auto newRotation = SplineComponent->FindDirectionClosestToWorldLocation(GetCameraComponent()->GetComponentToWorld().GetLocation(), ESplineCoordinateSpace::World);
 
-	// Move camera
+	// Move camera Y / Z axis
 	auto oldCameraLocation = GetCameraComponent()->GetComponentToWorld().GetLocation();
 	GetCameraComponent()->SetWorldLocation(FVector(oldCameraLocation.X, newPos.Y, newPos.Z));
 

@@ -4,19 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "Camera/CameraActor.h"
-#include "PlayerCamera.generated.h"
+#include "MainCamera.generated.h"
 
 class ACharacterFrog;
 class ACameraSpline;
 class USplineComponent;
 
+/**
+ * 
+ */
 UCLASS()
-class GAMEJAM_API APlayerCamera : public ACameraActor
+class GAMEJAM_API AMainCamera : public ACameraActor
 {
 	GENERATED_BODY()
 
 public:
-	APlayerCamera();
+	AMainCamera();
 
 	void BeginPlay() override;
 
@@ -31,4 +34,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float DistanceFromPlayer;
+
+	
 };
