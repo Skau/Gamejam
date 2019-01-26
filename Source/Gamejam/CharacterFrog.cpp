@@ -53,7 +53,7 @@ void ACharacterFrog::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacterFrog::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("HighJump", IE_Pressed, this, &ACharacterFrog::HighJump);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACharacterFrog::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACharacterFrog::MoveRight);
@@ -63,7 +63,12 @@ void ACharacterFrog::Jump()
 {
 	if (!GetCharacterMovement()->IsFalling())
 		LaunchCharacter((GetActorUpVector() * 500) + (GetActorForwardVector() * 1000), false, false);
-		//ACharacter::Jump();
+}
+
+void ACharacterFrog::HighJump()
+{
+	if (!GetCharacterMovement()->IsFalling())
+		LaunchCharacter((GetActorUpVector() * 800), false, false);
 }
 
 void ACharacterFrog::MoveForward(float Value)
