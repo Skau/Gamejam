@@ -61,8 +61,9 @@ void ACharacterFrog::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ACharacterFrog::Jump()
 {
-	if(!GetCharacterMovement()->IsFalling())
+	if (!GetCharacterMovement()->IsFalling())
 		LaunchCharacter((GetActorUpVector() * 500) + (GetActorForwardVector() * 1000), false, false);
+		//ACharacter::Jump();
 }
 
 void ACharacterFrog::MoveForward(float Value)

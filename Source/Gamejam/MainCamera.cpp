@@ -15,7 +15,10 @@ AMainCamera::AMainCamera()
 	SplineComponent = CreateDefaultSubobject<USplineComponent>("SplineComponent");
 	SplineComponent->SetupAttachment(RootComponent);
 
-	DistanceFromPlayer = 500;
+	DistanceFromPlayer = 400;
+
+	GetCameraComponent()->SetFieldOfView(90.f);
+
 }
 
 void AMainCamera::BeginPlay()
