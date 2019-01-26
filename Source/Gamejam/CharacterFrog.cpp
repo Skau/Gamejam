@@ -7,6 +7,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Engine/World.h"
+
+#include "PlayerCamera.h"
+
+
 
 // Sets default values
 ACharacterFrog::ACharacterFrog()
@@ -27,29 +32,19 @@ ACharacterFrog::ACharacterFrog()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f;
-	CameraBoom->bUsePawnControlRotation = true;
-
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->bUsePawnControlRotation = false;
 }
 
 // Called when the game starts or when spawned
 void ACharacterFrog::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SetActorRotation(FRotator(0));
 }
 
 // Called every frame
 void ACharacterFrog::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -63,27 +58,12 @@ void ACharacterFrog::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACharacterFrog::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACharacterFrog::MoveRight);
-
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &ACharacterFrog::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &ACharacterFrog::LookUpAtRate);
-
-}
-
-void ACharacterFrog::TurnAtRate(float Rate)
-{
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-}
-
-void ACharacterFrog::LookUpAtRate(float Rate)
-{
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void ACharacterFrog::Jump()
 {
-	LaunchCharacter((GetActorUpVector() * 500) + (GetActorForwardVector() * 1000), false, false);
+	if(!GetCharacterMovement()->IsFalling())
+		LaunchCharacter((GetActorUpVector() * 500) + (GetActorForwardVector() * 1000), false, false);
 }
 
 void ACharacterFrog::MoveForward(float Value)
