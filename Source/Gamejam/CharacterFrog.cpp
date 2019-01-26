@@ -9,7 +9,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Engine/World.h"
 
-#include "PlayerCamera.h"
 
 
 
@@ -25,7 +24,7 @@ ACharacterFrog::ACharacterFrog()
 	BaseLookUpRate = 45.f;
 
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = true;
+	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;

@@ -15,7 +15,7 @@ AMainCamera::AMainCamera()
 	SplineComponent = CreateDefaultSubobject<USplineComponent>("SplineComponent");
 	SplineComponent->SetupAttachment(RootComponent);
 
-	DistanceFromPlayer = 600;
+	DistanceFromPlayer = 500;
 }
 
 void AMainCamera::BeginPlay()
@@ -30,8 +30,11 @@ void AMainCamera::BeginPlay()
 	}
 	else
 	{
-		SetActorLocation(FVector(Player->GetActorLocation().X - DistanceFromPlayer, Player->GetActorLocation().Y, 300));
+		SetActorLocation(FVector(Player->GetActorLocation().X - DistanceFromPlayer, Player->GetActorLocation().Y, 800));
 	}
+
+	GetCameraComponent()->SetWorldRotation(FRotator(-40.f, 0.f, 0.f));
+
 }
 
 void AMainCamera::Tick(float deltaTime)
@@ -54,5 +57,5 @@ void AMainCamera::Tick(float deltaTime)
 	GetCameraComponent()->SetWorldLocation(FVector(oldCameraLocation.X, newPos.Y, newPos.Z));
 
 	// Rotate camera
-	GetCameraComponent()->SetWorldRotation(FRotator(0, newRotation.Rotation().Yaw, 0));
+	GetCameraComponent()->SetWorldRotation(FRotator(-40.f, newRotation.Rotation().Yaw, 0));
 }
