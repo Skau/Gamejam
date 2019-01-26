@@ -15,7 +15,6 @@ public:
 	// Sets default values for this character's properties
 	ACharacterFrog();
 
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
@@ -34,16 +33,6 @@ protected:
 
 	void MoveRight(float Value);
 
-	void TurnAtRate(float Rate);
-
-	void LookUpAtRate(float Rate);
-
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
-
 	void Jump();
 };
