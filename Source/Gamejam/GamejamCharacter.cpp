@@ -17,7 +17,7 @@ AGamejamCharacter::AGamejamCharacter()
 	BaseLookUpRate = 45.f;
 
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true; 
