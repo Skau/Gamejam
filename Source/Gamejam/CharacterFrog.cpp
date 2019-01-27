@@ -49,7 +49,7 @@ void ACharacterFrog::Tick(float DeltaTime)
 	{
 		GetMovementComponent()->StopMovementImmediately();
 
-		//GetCapsuleComponent()->SetSimulatePhysics(true);
+		GetCapsuleComponent()->SetSimulatePhysics(true);
 		GetMesh()->SetAllBodiesSimulatePhysics(true);
 		GetMesh()->WakeAllRigidBodies();
 		GetMesh()->SetCollisionProfileName("Ragdoll");
