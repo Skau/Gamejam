@@ -8,9 +8,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Engine/World.h"
-
-
-
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 ACharacterFrog::ACharacterFrog()
@@ -46,6 +44,19 @@ void ACharacterFrog::BeginPlay()
 void ACharacterFrog::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bGameIsOver)
+	{
+		GetMovementComponent()->StopMovementImmediately();
+
+		//GetCapsuleComponent()->SetSimulatePhysics(true);
+		GetMesh()->SetAllBodiesSimulatePhysics(true);
+		GetMesh()->WakeAllRigidBodies();
+		GetMesh()->SetCollisionProfileName("Ragdoll");
+		GetCapsuleComponent()->SetCollisionProfileName("Ragdoll");
+
+		GetMesh()->AddImpulse(GetActorForwardVector() * 1000 /*+ GetActorUpVector() * 100*/);
+	}
 }
 
 // Called to bind functionality to input

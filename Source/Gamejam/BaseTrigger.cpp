@@ -2,6 +2,7 @@
 
 #include "BaseTrigger.h"
 #include "Components/BoxComponent.h"
+#include "CharacterFrog.h"
 
 // Sets default values
 ABaseTrigger::ABaseTrigger()
@@ -11,6 +12,8 @@ ABaseTrigger::ABaseTrigger()
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
 	RootComponent = BoxComponent;
+
+	TriggerType = ETriggerType::None;
 }
 
 // Called when the game starts or when spawned
@@ -26,7 +29,6 @@ void ABaseTrigger::BeginPlay()
 void ABaseTrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABaseTrigger::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
@@ -34,6 +36,16 @@ void ABaseTrigger::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor *
 	if (OtherActor != this)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnOverlapBegin"))
+
+		switch (TriggerType)
+		{
+		case ETriggerType::Finish:
+			if (auto Player = Cast<ACharacterFrog>(OtherActor))
+			{
+				Player->setGameIsOver(true);
+			}
+			break;
+		}
 	}
 }
 
