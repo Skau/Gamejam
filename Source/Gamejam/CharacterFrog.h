@@ -26,7 +26,23 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	float GetMaxYDistance() { return MaxYDistance; }
+
+	bool GetCanMoveRight() { return bCantMoveRight; }
+	bool GetCanMoveLeft() { return bCantMoveLeft;  }
+
+	void SetCanMoveRight(bool Value) { bCantMoveRight = Value; }
+	void SetCanMoveLeft(bool Value) { bCantMoveLeft = Value; }
+
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float MaxYDistance;
+
+	UPROPERTY(EditAnywhere)
+	bool bCantMoveRight;
+	UPROPERTY(EditAnywhere)
+	bool bCantMoveLeft;
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void MoveForward(float Value);

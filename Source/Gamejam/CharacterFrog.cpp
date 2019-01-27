@@ -31,6 +31,8 @@ ACharacterFrog::ACharacterFrog()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+
+	MaxYDistance = 800.f;
 }
 
 // Called when the game starts or when spawned
@@ -87,12 +89,15 @@ void ACharacterFrog::MoveRight(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		if (Value < 0 && bCantMoveRight || Value > 0 && bCantMoveLeft)
+		{
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-		AddMovementInput(Direction, Value);
+			AddMovementInput(Direction, Value);
+		}
 	}
 }
 

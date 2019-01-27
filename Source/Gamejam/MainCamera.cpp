@@ -43,9 +43,31 @@ void AMainCamera::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
-	if (!Player) { return; }
-
 	check(Player);
+
+	auto pos = SplineComponent->FindLocationClosestToWorldLocation(Player->GetActorLocation(), ESplineCoordinateSpace::World);
+
+	auto delta = pos.Y - Player->GetActorLocation().Y;
+	
+	if (delta < -Player->GetMaxYDistance() && Player->GetCanMoveLeft())
+	{
+		Player->SetCanMoveLeft(false);
+	}
+
+	if (delta > Player->GetMaxYDistance() && Player->GetCanMoveRight())
+	{
+		Player->SetCanMoveRight(false);
+	}
+
+	if(delta > -Player->GetMaxYDistance() && !Player->GetCanMoveLeft())
+	{
+		Player->SetCanMoveLeft(true);
+	}
+
+	if (delta < Player->GetMaxYDistance() && !Player->GetCanMoveRight())
+	{
+		Player->SetCanMoveRight(true);
+	}
 
 	// Move camera X axis
 	auto CameraLocation = GetCameraComponent()->GetComponentToWorld().GetLocation();
