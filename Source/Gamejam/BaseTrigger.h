@@ -6,6 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "BaseTrigger.generated.h"
 
+UENUM(BlueprintType)
+enum class ETriggerType : uint8
+{
+	None,
+	Finish
+};
+
 UCLASS()
 class GAMEJAM_API ABaseTrigger : public AActor
 {
@@ -26,6 +33,10 @@ public:
 
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+protected:
+	UPROPERTY(EditAnywhere)
+	ETriggerType TriggerType;
 private:
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* BoxComponent;

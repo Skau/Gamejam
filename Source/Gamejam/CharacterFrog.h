@@ -34,6 +34,17 @@ public:
 	void SetCanMoveRight(bool Value) { bCantMoveRight = Value; }
 	void SetCanMoveLeft(bool Value) { bCantMoveLeft = Value; }
 
+	UFUNCTION(BlueprintPure)
+	bool getGameIsOver() { return bGameIsOver; }
+	UFUNCTION(BlueprintPure)
+	bool getWindowIsOpen() { return bWindowIsOpen; }
+
+	UFUNCTION(BlueprintCallable)
+	void setGameIsOver(bool Value) { bGameIsOver = Value; }
+
+	UFUNCTION(BlueprintCallable)
+	void setWindowIsOpen(bool Value) { bWindowIsOpen = Value; }
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float MaxYDistance;
@@ -48,6 +59,11 @@ protected:
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bGameIsOver;
+	UPROPERTY(BlueprintReadWrite)
+	bool bWindowIsOpen;
 
 private:
 	void Jump();

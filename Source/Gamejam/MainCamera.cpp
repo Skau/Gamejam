@@ -7,6 +7,7 @@
 #include "Components/SplineComponent.h"
 #include "Camera/CameraComponent.h"
 #include "CharacterFrog.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AMainCamera::AMainCamera()
 {
@@ -51,11 +52,13 @@ void AMainCamera::Tick(float deltaTime)
 	
 	if (delta < -Player->GetMaxYDistance() && Player->GetCanMoveLeft())
 	{
+		Player->GetMovementComponent()->StopMovementImmediately();
 		Player->SetCanMoveLeft(false);
 	}
 
 	if (delta > Player->GetMaxYDistance() && Player->GetCanMoveRight())
 	{
+		Player->GetMovementComponent()->StopMovementImmediately();
 		Player->SetCanMoveRight(false);
 	}
 
