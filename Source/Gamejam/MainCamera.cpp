@@ -18,7 +18,6 @@ AMainCamera::AMainCamera()
 	DistanceFromPlayer = 400;
 
 	GetCameraComponent()->SetFieldOfView(90.f);
-
 }
 
 void AMainCamera::BeginPlay()
@@ -45,6 +44,8 @@ void AMainCamera::Tick(float deltaTime)
 	Super::Tick(deltaTime);
 
 	if (!Player) { return; }
+
+	check(Player);
 
 	// Move camera X axis
 	auto CameraLocation = GetCameraComponent()->GetComponentToWorld().GetLocation();
